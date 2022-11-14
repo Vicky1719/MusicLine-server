@@ -72,6 +72,23 @@ router.delete("/:creationId/delete", async (req, res, next) => {
         next(error)
     }
 })
+//POST crear comentario /api/creation/comments
+router.post("/create/:id", async (req, res, next) => {
+
+    const newComments = {
+        description: req.body.description,
+        creation: req.params.id,
+        user: req.payload._id 
+    }
+    try {
+        const response = await Comments.create(newComments)
+     
+        res.status(201).json("Nuevo comentario creado")
+    } catch(error) {
+        next(error)
+    }
+})
+
 
 //PATCH  creaciones favoritas
 router.patch("/:creationId/favorites", isAuthenticated, async (req, res, next) => {
@@ -85,8 +102,18 @@ router.patch("/:creationId/favorites", isAuthenticated, async (req, res, next) =
     }
 })
 
+ //GET lista de co  lista de commentarios
+// router.get("/", async (req, res, next) => {
+//     try {
+//         const response = await Creation.find()
+//         res.status(200).json(response)
+//     } catch(error) {
+//         next(error)
+//     }
+// })
+
 //DELETE borrar de favoritos
-router.delete("/:creationId/delete-favorites", isAuthenticated, async (req, res, next) => {
+router.patch("/:creationId/delete-favorites", isAuthenticated, async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.payload._id, {
         $pull: {favorites: req.params.creationId},
