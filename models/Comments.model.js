@@ -2,12 +2,16 @@ const { Schema, model } = require("mongoose");
 
 const commentsSchema = new Schema(
   {
-    commentSong: {
+    description: {
+      type: String
+    },
+
+    creation: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "creation",
     },
 
-    commentUser: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
