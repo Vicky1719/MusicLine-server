@@ -10,10 +10,10 @@ const isAuthenticated = require("../middlewares/auth.middlewares")
 //POST  registro de usuario
 router.post("/signup", async (req, res, next) => {
 
-    const { firstName, lastName, username, email, password } = req.body
+    const { firstname, lastname, username, email, password } = req.body
 
     //1. validaciones de backend
-    if ( !firstName || !lastName || !username || !email || !password ) {
+    if ( !firstname || !lastname || !username || !email || !password ) {
         res.status(400).json({ errorMessage: "Debe cumplimentar todos los campos" })
         return;
     }
@@ -29,7 +29,7 @@ router.post("/signup", async (req, res, next) => {
 
         // Validar 5 caracteres minimo para el usuario
     if (username.length < 5) {
-        res.status(400).json({errorMessage: "El nombre de usuario debe tener mínimo 4 caracteres"});
+        res.status(400).json({errorMessage: "El nombre de usuario debe tener mínimo 5 caracteres"});
             return;
     }
         // Validacion Email unico
@@ -42,7 +42,7 @@ router.post("/signup", async (req, res, next) => {
     // Validation User unico
     const foundUser = await User.findOne({ username: username });
     if (foundUser !== null) {
-      res.status(406).json({ errorMessage: "Username ya registrado." });
+      res.status(406).json({ errorMessage: "Usuario ya registrado." });
       return;
     }
         //2. codificar contraseña
@@ -50,8 +50,8 @@ router.post("/signup", async (req, res, next) => {
         const hashPassword = await bcrypt.hash(password, salt)
 
         const newUser = {
-            firstName: firstName,
-            lastName: lastName,
+            firstname: firstname,
+            lastame: lastname,
             username: username,
             email: email,
             password: hashPassword
@@ -98,8 +98,8 @@ router.post("/login", async (req, res, next) => {
         //2. creación de sesión (TOKEN) y enviarlo al cliente
         const payload = {
             _id: foundUser._id,
-            firstName: foundUser.firstName,
-            lastName: foundUser.lastName,
+            firstname: foundUser.firstname,
+            lastname: foundUser.lastname,
             username: foundUser.username,
             email: foundUser.email,
             role: foundUser.role,
