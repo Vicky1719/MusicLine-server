@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Creation = require("../models/Creation.model")
+const Comments = require ("../models/Comments.model")
 const jwt = require("jsonwebtoken")
 const isAuthenticated = require("../middlewares/auth.middlewares");
 const User = require("../models/User.model");
@@ -73,12 +74,11 @@ router.delete("/:creationId/delete", async (req, res, next) => {
     }
 })
 //POST crear comentario /api/creation/comments
-router.post("/create/:id", async (req, res, next) => {
-
+router.post("/create/:id", isAuthenticated, async (req, res, next) => {
     const newComments = {
         description: req.body.description,
         creation: req.params.id,
-        user: req.payload._id 
+       user: req.payload._id 
     }
     try {
         const response = await Comments.create(newComments)
