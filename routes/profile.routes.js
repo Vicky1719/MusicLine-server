@@ -6,8 +6,8 @@ const isAuthenticated  = require ("../middlewares/auth.middlewares");
 //GET mi perfil 
 router.get("/my-profile", isAuthenticated, async (req, res, next) => {
     try {
-        await User.findById(req.payload._id)
-        res.status(200).json("mi perfil")
+        const response= await User.findById(req.payload._id)
+        res.status(200).json(response)
 
     } catch (error) {
         next(error);
@@ -24,7 +24,7 @@ router.patch("/:userId/edit", isAuthenticated, async (req, res, next) => {
     };
 
     try {
-        await User.findByIdAndUpdate(req.params.userId, userUpdate)
+        await User.findByIdAndUpdate(req.payload._id, userUpdate)
 
         res.status(200).json("Actualizar perfil")
     } catch (error) {
