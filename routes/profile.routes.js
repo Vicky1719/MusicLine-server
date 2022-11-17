@@ -34,8 +34,9 @@ router.patch("/:userId/edit", isAuthenticated, async (req, res, next) => {
 
 //POST borrar usuario
 router.post("/:userId/delete", isAuthenticated, async (req, res, next)=> {
+    const {userId} = req.params
     try{
-        await User.findByIdAndDelete(req.params.userId)
+        await User.findByIdAndDelete(userId)
         res.status(200).json("Borrar perfil")
     } catch(error) {
         next(error)

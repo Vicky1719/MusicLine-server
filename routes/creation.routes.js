@@ -55,9 +55,10 @@ router.patch("/:creationId/edit", async (req, res, next) => {
 })
 
 //GET Buscar creacion
-router.get("/:creationId/search", async (req, res, next) => {
+router.get("/:creationId/detail", async (req, res, next) => {
+    const {creationId } = req.params
     try {
-      const response = await Creation.findById(req.params.creationId)
+      const response = await Creation.findById(creationId)
       res.status(200).json(response)
     } catch(error) {
         next(error)
