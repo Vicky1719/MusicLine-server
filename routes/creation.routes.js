@@ -73,18 +73,43 @@ router.delete("/:creationId/delete", async (req, res, next) => {
     } catch(error) {
         next(error)
     }
+   
+})
+ //GET Buscar comentarios
+ router.get("/:creationId/comment", async (req, res, next) => {
+    const {creationId } = req.params
+    try {
+      const response = await Comments.find({"creation":`${creationId}`})
+      res.status(200).json(response)
+    } catch(error) {
+        next(error)
+    }
 })
 //POST crear comentario /api/creation/comments
-router.post("/create/:id", isAuthenticated, async (req, res, next) => {
+router.post("/:creationId/comment", isAuthenticated, async (req, res, next) => {
+
+    console.log("dec", req.params)
     const newComments = {
         description: req.body.description,
-        creation: req.params.id,
+        creation: req.params.creationId,
        user: req.payload._id 
     }
+    
     try {
-        const response = await Comments.create(newComments)
+         await Comments.create(newComments)
      
         res.status(201).json("Nuevo comentario creado")
+    } catch(error) {
+        next(error)
+    }
+})
+
+
+//DELETE Borra comentario
+router.delete("/:commentId/delete", async (req, res, next) => {
+    try {
+      await Comment.findByIdAndDelete(req.params.commentId)
+      res.status(200).json("Comentario borrado")
     } catch(error) {
         next(error)
     }
@@ -103,15 +128,15 @@ router.patch("/:creationId/favorites", isAuthenticated, async (req, res, next) =
     }
 })
 
- //GET lista de co  lista de commentarios
-// router.get("/", async (req, res, next) => {
-//     try {
-//         const response = await Creation.find()
-//         res.status(200).json(response)
-//     } catch(error) {
-//         next(error)
-//     }
-// })
+//GET lista de co  lista de commentarios
+ router.get("/", async (req, res, next) => {
+    try {
+      const response = await Creation.find()
+       res.status(200).json(response)
+   } catch(error) {
+        next(error)
+    }
+ })
 
 //DELETE borrar de favoritos
 router.patch("/:creationId/delete-favorites", isAuthenticated, async (req, res, next) => {

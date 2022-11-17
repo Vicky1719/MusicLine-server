@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const commentsSchema = new Schema(
   {
-    description: [{
+    description: {
       type: String
 
-    }],
+    },
 
     creation: {
       type: Schema.Types.ObjectId,
