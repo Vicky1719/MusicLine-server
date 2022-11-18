@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Creation = require("../models/Creation.model")
 const Comments = require ("../models/Comments.model")
 const jwt = require("jsonwebtoken")
-const isAuthenticated = require("../middlewares/auth.middlewares");
+const {isAuthenticated} = require("../middlewares/auth.middlewares");
 const User = require("../models/User.model");
 
 
@@ -45,7 +45,8 @@ router.patch("/:creationId/edit",  isAuthenticated, async (req, res, next) => {
         description: req.body.description,
         letter: req.body.letter,
         music: req.body.music,
-        song: req.body.song
+        song: req.body.song,
+        user: req.payload._id
     }
 
     try {
@@ -82,7 +83,7 @@ router.get("/my-creation", isAuthenticated , async (req, res, next) => {
 
 
 //DELETE Borra creacion
-router.delete("/:creationId/delete", async (req, res, next) => {
+router.delete("/:creationId/delete", isAuthenticated, async (req, res, next) => {
     try {
       await Creation.findByIdAndDelete(req.params.creationId)
       res.status(200).json("Creación borrada")
@@ -92,7 +93,7 @@ router.delete("/:creationId/delete", async (req, res, next) => {
    
 })
  //GET Buscar comentarios
- router.get("/:creationId/comment", async (req, res, next) => {
+ router.get("/:creationId/comment", isAuthenticated, async (req, res, next) => {
     const {creationId } = req.params
     try {
       const response = await Comments.find({"creation":`${creationId}`})
@@ -122,7 +123,7 @@ router.post("/:creationId/comment", isAuthenticated, async (req, res, next) => {
 
 
 //DELETE Borra comentario
-router.delete("/:commentId/delete", async (req, res, next) => {
+router.delete("/:commentId/delete", isAuthenticated, async (req, res, next) => {
     try {
       await Comment.findByIdAndDelete(req.params.commentId)
       res.status(200).json("Comentario borrado")

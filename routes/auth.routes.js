@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const isAuthenticated = require("../middlewares/auth.middlewares");
+const {isAuthenticated} = require("../middlewares/auth.middlewares");
 
 //rutas de autentificacion (signup y login)
 
