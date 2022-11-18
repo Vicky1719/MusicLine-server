@@ -17,14 +17,16 @@ router.get("/", async (req, res, next) => {
 })
 
 //POST crear creacion
-router.post("/create", async (req, res, next) => {
+router.post("/create",  isAuthenticated, async (req, res, next) => {
 
     const newCreation = {
         name: req.body.name,
         description: req.body.description,
         letter: req.body.letter,
         music: req.body.music,
-        song: req.body.song
+        song: req.body.song,
+        user: req.payload._id
+        
     }
     
     try {
@@ -37,7 +39,7 @@ router.post("/create", async (req, res, next) => {
 })
 
 //PATH Edita una creacion
-router.patch("/:creationId/edit", async (req, res, next) => {
+router.patch("/:creationId/edit",  isAuthenticated, async (req, res, next) => {
     const creationUpdate = {
         name: req.body.name,
         description: req.body.description,
@@ -54,7 +56,7 @@ router.patch("/:creationId/edit", async (req, res, next) => {
     }
 })
 
-//GET Buscar creacion
+//GET Detalles de la creacion
 router.get("/:creationId/detail", async (req, res, next) => {
     const {creationId } = req.params
     try {
@@ -64,6 +66,20 @@ router.get("/:creationId/detail", async (req, res, next) => {
         next(error)
     }
 })
+
+//GET mis creaciones 
+router.get("/my-creation", isAuthenticated , async (req, res, next) => {
+
+    try {
+      const response = await Creation.find({
+        user: req.payload._id
+      })
+      res.status(200).json(response)
+    } catch(error) {
+        next(error)
+    }
+})
+
 
 //DELETE Borra creacion
 router.delete("/:creationId/delete", async (req, res, next) => {
