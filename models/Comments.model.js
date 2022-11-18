@@ -3,8 +3,7 @@ const { Schema, model } = require("mongoose");
 const commentsSchema = new Schema(
   {
     description: {
-      type: String
-
+      type: String,
     },
 
     creation: {

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const {isAuthenticated} = require("../middlewares/auth.middlewares");
+const { isAuthenticated } = require("../middlewares/auth.middlewares");
 
 //rutas de autentificacion (signup y login)
 
@@ -22,23 +22,19 @@ router.post("/signup", async (req, res, next) => {
   const passwordSegurity =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
   if (passwordSegurity.test(password) === false) {
-    res
-      .status(406)
-      .json({
-        errorMessage:
-          "La contraseña debe tener mñinimo 8 caracteres, una mayúscula y un número",
-      });
+    res.status(406).json({
+      errorMessage:
+        "La contraseña debe tener mñinimo 8 caracteres, una mayúscula y un número",
+    });
     return;
   }
 
   try {
     // Validar 5 caracteres minimo para el usuario
     if (username.length < 5) {
-      res
-        .status(400)
-        .json({
-          errorMessage: "El nombre de usuario debe tener mínimo 5 caracteres",
-        });
+      res.status(400).json({
+        errorMessage: "El nombre de usuario debe tener mínimo 5 caracteres",
+      });
       return;
     }
     // Validacion Email unico
@@ -112,7 +108,6 @@ router.post("/login", async (req, res, next) => {
 
     const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
-      
     });
     res.status(200).json({ authToken: authToken });
   } catch (error) {

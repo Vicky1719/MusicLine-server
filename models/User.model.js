@@ -4,13 +4,11 @@ const { Schema, model } = require("mongoose");
 const userSchema = new Schema(
   {
     firstname: {
-     type: String,
-    
+      type: String,
     },
 
     lastname: {
       type: String,
-      
     },
 
     username: {
@@ -43,12 +41,12 @@ const userSchema = new Schema(
       type: String,
       enum: ["avatar1", "avatar2", "avatar3"],
     },
-    
+
     favorites: [
       {
         type: Schema.Types.ObjectId,
         ref: "Product",
-      }
+      },
     ],
   },
   {

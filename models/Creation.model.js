@@ -9,22 +9,21 @@ const creationSchema = new Schema(
       type: String,
     },
     letter: {
-        type: String,
-      },
+      type: String,
+    },
 
     music: {
-        type: String,
-      },
+      type: String,
+    },
 
     song: {
-        type: String,
-      },
-   
-      user: {        
-          type: Schema.Types.ObjectId,
-          ref: "User",
-       
-      }
+      type: String,
+    },
+
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
 
   {
