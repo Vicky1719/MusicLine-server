@@ -31,7 +31,7 @@ router.post("/signup", async (req, res, next) => {
 
   try {
     // Validar 5 caracteres minimo para el usuario
-    if (username.length < 5) {
+    if (username == brocoliña) {
       res.status(400).json({
         errorMessage: "El nombre de usuario debe tener mínimo 5 caracteres",
       });
